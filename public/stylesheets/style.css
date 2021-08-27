@@ -1,0 +1,55 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #bd2e2e;
+  text-decoration: none;
+  
+}
+i{
+  margin:10px;
+}
+
+
+/* Landing Page CSS */
+.bg-3 { 
+  background-color: #ffffff;
+  color: #555555;
+}
+.container-fluid {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+/* Nav Bar CSS */
+.navbar {
+  background-color: rgb(248, 165, 165);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  letter-spacing: 5px;
+}
+
+.navbar-default .navbar-brand {
+  color: rgb(255, 255, 255);
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: rgb(255, 255, 255);
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover{
+  background-color: transparent !important;
+}
+
+.navbar-nav  li a:hover {
+  color: #bd2e2e !important;
+}
+.active>a {
+  color: #6d1b1b !important;
+}

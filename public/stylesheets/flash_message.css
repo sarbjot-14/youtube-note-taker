@@ -1,0 +1,17 @@
+.error, .errorMsg{
+    color: #ff8080;
+    padding-top: 20px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.normal{
+    color: darkgray;
+    padding-top: 20px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+.success, .successMsg{
+    color: green;
+    padding-top: 20px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+

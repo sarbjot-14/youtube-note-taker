@@ -1,0 +1,44 @@
+.hidden {
+  display: none;
+}
+
+#player {
+  padding-top: 20px;
+}
+
+#notes {
+  padding-top: 20px;
+}
+
+#addBtn {
+  margin-top: 20px;
+}
+
+#editingArea {
+  margin-top: 20px;
+}
+
+#notes {
+  /* background-color: lavenderblush; */
+  margin-top: 10px;
+}
+
+#notesList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#notesList li {
+  clear: both;
+  padding: 20px;
+  border-radius: 30px;
+  margin-bottom: 2px;
+  border-bottom-right-radius: 5px;
+  background: lavenderblush;
+}
+
+.timeLink {
+  cursor: pointer;
+  color: blue;
+}

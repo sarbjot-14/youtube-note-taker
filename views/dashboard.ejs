@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include frame/head %> 
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/playlist.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <% include frame/nav %>
+    <h1><%= title %></h1>
+    <form >
+    <h3>Welcome <%= user%></h3>
+    <table  id="table" class="table table-striped">
+      <th>Playlists:</th>
+      <% playlists.forEach(function(r) {  %>
+        <tr>
+            <td><a href='/view-videos/?id=<%= r.playlist_id %>&playlist_name=<%= r.playlist_name %>&owner=<%= r.owner %>'><%= r.playlist_name %></a><a href='/edit-playlist/?id=<%= r.playlist_id %>&playlist_name=<%= r.playlist_name %>&owner=<%= r.owner %>'><i style="font-size:24px" class="fa">&#xf044;</i></a></td>
+          </tr>
+    <% }); %>
+    
+    </table>
+    </form>
+    
+    <form action="/add-playlist" method="POST">
+      <h2>Add Playlist</h2>
+      <label for="fname">Name:</label><br>
+      <input type="text" id="name" name="name" required><br>
+      <input type="submit" value="Submit" id="btn" class="btn btn-danger">
+    </form>
+  
+  </body>
+  <% include frame/script %>
+</html>

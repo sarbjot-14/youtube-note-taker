@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/stylesheets/flash_message.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+<head>
+    <% include frame/head %> 
+</head>
+<body>
+    <% include frame/nav_signup %>
+    <div>
+        <form class = '/signup' method = 'POST'>
+            <% if (message.length >0){ %>
+              <div class = <%=type%> > <%= message %> </div>
+            <% } %>
+            <h2> Sign Up</h2>
+            <label for="username"> User Name: </label><br>
+            <input type="text" id="username" name="username" placeholder="Name" required /><br/>
+            
+            <br/>
+
+            <label for="email"> Email: </label><br>
+            <input type="email" id="useremail" name="useremail" placeholder="email" required/><br/>
+
+            <br/>
+
+            <label for="password"> Password: </label><br>
+            <input type="password" id="idPassword" name="idPassword" placeholder="Password" required/><br/>
+
+            <br/>
+
+            <label for="confirmPassword"> Confirm Password: </label><br>
+            <input type="password" id="idconfirmPassword" name="idconfirmPassword" placeholder="Confirm Password" required/><br/>
+
+            <br/>
+
+            <input type = "submit" value = "Sign Up"> 
+        </form>
+        <p>Already have an account? <a href='/login'> Login</a></p>
+    </div>
+</body>
+</html>
+

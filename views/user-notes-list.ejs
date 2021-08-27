@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include frame/head %> 
+  <title>Notes list</title>
+  <link rel="stylesheet" href="/stylesheets/user-notes-list.css" />
+</head>
+<body>
+  <% include frame/nav %> 
+  <div class="container">
+    <br>
+    <h2 class="text-center">
+    Video Notes
+    </h2>
+    <br>
+    <br>
+    <br>
+   
+    <% if (userNotesList.length == 0) { %>
+      <p>There are not notes for this video</p>
+    <% } %>
+  
+    <% if (userNotesList.length != 0) { %>
+    <form action = '/user-notes-list-edit' method = 'post'>
+      
+      <ul id="userNotes">
+        <% for (var i = 0; i < userNotesList.length; i++) { %>
+          <li><h4> <%=userNotesList[i].time_stamp %> <%=userNotesList[i].note %></h4></li>
+          <input type = "hidden" id = "noteID" name = "note_id" value = "<%=userNotesList[i].note_id %>" multiple>
+          <br>
+        <% } %>
+      </ul>
+      <input type = "hidden" id = "owner" name = "owner" value = "<%=userNotesList[0].owner %>">
+      <input type = "hidden" id = "videoId" name = "video_id" value = "<%=userNotesList[0].video_id %>">
+      <input type = "Submit" value = "edit" class = "btn btn-danger">
+    </form>
+    <% } %>
+   
+  </div>
+</body>
+</html>

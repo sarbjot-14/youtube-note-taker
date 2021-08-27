@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include frame/head %>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/playlist.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <% include frame/nav %>
+    <h1><%= title %></h1>
+
+    <table id="table" class="table table-striped">
+      <tr>
+        <th>Name</th>
+      </tr>
+
+      <% videos.forEach(function(r) { %>
+      <tr>
+        <!-- <td><a href='/video-player/?id=<%= r.youtube_link_id %>'><%= r.video_title %>></a></td> -->
+        <td><a href="/video-player/<%= r.video_id %>"><%= r.video_title %></a>
+          <a href="/user-notes-list?video_id=<%=r.video_id %>&owner=<%=owner %>" class="btn btn-danger">Video notes</a>
+        </td>
+        
+      </tr>
+      <% }); %>    
+    </table>
+    <br />
+    <br />
+    <a href="/add-video?playlist_id=<%=playlist_id %>&owner=<%=owner %>" class="btn btn-default">Add Video</a>
+  </body>
+  <% include frame/script %>
+</html>

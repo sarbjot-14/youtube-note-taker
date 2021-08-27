@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include frame/head %>
+    <title><%= title %></title>
+
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/playlist.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  </head>
+  <body>
+    <% include frame/nav %>
+
+    <h1 style="margin-top: 10%; margin-left: 20%; display: inline"><%= title %></h1>
+    <a  href="/delete-playlist/?playlist_id=<%= playlist.id %>"><i class="fa fa-trash-o" style="font-size: 45px"></i></a>
+    <form  action="/rename-playlist" method="POST">
+      <input hidden readonly type="text" id="playlist_id" name="playlist_id" value=<%=playlist.id %>><br>
+
+      <label for="playlist_name">Rename Playlist:</label><br />
+      
+      <input type="text" id="playlist_name" name="playlist_name" value=<%=playlist.playlist_name %> required><br>
+
+      <input type="submit" value="Submit" id="btn" class="btn btn-danger" />
+    </form>
+    <table id="table" class="table table-striped">
+      <tr>
+        <th>Name</th>
+      </tr>
+
+      <% videos.forEach(function(r) { %>
+      <tr>
+        <td>
+          <%= r.video_title %>
+          <a href="/delete-video/?video_id=<%= r.video_id %>"><i class="fa fa-trash-o" style="font-size: 24px"></i></a>
+        </td>
+      </tr>
+      <% }); %>
+    </table>
+  </body>
+  <% include frame/script %>
+</html>

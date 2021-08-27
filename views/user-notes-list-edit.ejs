@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include frame/head %> 
+    <title></title> 
+  </head>
+  <form action = "/user-notes-list" method = "post">
+    <body>
+      <% include frame/nav %>
+      <div class="container">
+        <br>
+        <h2 class="text-center">
+        Edit Notes
+        </h2>
+        <br>
+        <br>
+        <br>
+        <div class = "notesList">
+          <ul id = "listNotes">
+            <% for (var i = 0; i < userNotesList.length; i++) { %>
+                <li > 
+                  <h5 class="text-left">
+                  Timestamp
+                </h5>      
+                <%
+                timeformat = function(t) {
+                  var h = Math.floor(t / 3600);
+                  var m = Math.floor(t % 3600 / 60);
+                  var s = Math.floor(t % 3600 % 60);
+                
+                  return (h + ":" + m + ":" + s);
+                }
+
+                %>           
+                <input  type = "hidden" id = "time_stamp" name = "time_stamp" value = "<%=userNotesList[i].time_stamp %>">
+                  <h5><%= timeformat(userNotesList[i].time_stamp) %> </h5>
+                  <h5 class="text-left">
+                    Notes
+                  </h5>
+                  <input class="form-control" type = "text" id = "notes_list" name = "notes_list" value = "<%=userNotesList[i].note %>" required> 
+                  <br>
+                  <button type = "button" id = "<%=userNotesList[i].note_id %>" onclick = "Delete(this.id)" class="btn btn-danger">Delete </button>
+                  <input type = "hidden" id = "noteID" name = "note_id" value = "<%=userNotesList[i].note_id %>" multiple> 
+                  <input type = "hidden" id = "deleted<%=userNotesList[i].note_id %>" name = "deleted" value = "null">
+                  <br>
+                  <br>
+              </li>
+            <% } %>
+          </ul>
+          <input type = "hidden" id = "owner" name = "owner" value = "<%=userNotesList[0].owner %>">
+          <input type = "hidden" id = "videoId" name = "video_id" value = "<%=userNotesList[0].video_id %>">
+          <input type = "Submit" value = "Submit" class="btn btn-danger">
+        </div>
+      </div>
+    </body>
+  </form>
+  <script>
+  function timeStamp() {
+    var ul = document.getElementById("listNotes");
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode("Four"));
+    li.setAttribute("id", "element4"); // added line
+    ul.appendChild(li);
+  }    
+  function Delete(i){
+    console.log(i);
+    var number = i;
+    var list = document.getElementById(i);
+    var deleted = document.getElementById("deleted"+i);
+    console.log(list.parentElement);
+    console.log(deleted);
+    list.parentElement.style.display = "none";
+    deleted.value = i;
+    //var childnode = list.childNodes[i];
+    //console.log(childnode);
+    //list.removeChild(list.childNodes[i]);
+
+    return false;
+  }
+
+  function checkscript() {
+	// If the script makes it to here, everything is OK,
+	// so you can submit the form
+
+	return true;
+}
+  </script> 
+</html>

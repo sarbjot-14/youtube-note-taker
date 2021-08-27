@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/stylesheets/flash_message.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <% include frame/head %> 
+</head>
+<body>
+    <% include frame/nav_login %>
+    <div>
+        <% if(errorMsg) {%>
+                <div class= errorMsg>  <%= errorMsg %> </div>
+        <% } %>
+        <% if(successMsg) {%>
+            <div class= successMsg>  <%= successMsg %> </div>
+        <% } %>
+
+        <h2>Login Page</h2>
+        <form action='login' method="POST">
+            <input hidden readonly type="text" id="playlist_id" name="playlist_id" ><br>
+
+            <label for="login"> Email: </label><br>
+            <input type="email" id="useremail" name="useremail" placeholder="Email" required /><br/>
+
+            <br/>
+
+            <label for="password"> Password: </label><br>
+            <input type="password" id="idPassword" name="idPassword" placeholder="Password" required/><br/>
+            
+            <br/>
+
+            <input type = "submit" value = "Login">
+        </form>
+        <p>Don't have an account? <a href='/signup'>Signup</a></p>
+    </div>
+</body>
+</html>

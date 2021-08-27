@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include frame/head %>
+    <link rel="stylesheet" href="/stylesheets/player_view.css" />
+  </head>
+  <body>
+    <% include frame/nav %>
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+
+    <div id="player" class="col-md-6"></div>
+    <div class="col-md-6">
+      <div id="notes" style="width: 100%; height: 400px; line-height: 2.5em; overflow: scroll; padding: 5px">
+        <ul id="notesList"></ul>
+      </div>
+      <div id="editingArea">
+        <textarea id="note" name="note" rows="5" cols="33" placeholder="Note here" class="hidden"></textarea>
+        <button id="addBtn" class="funcBtn btn btn-danger">Add note</button>
+        <button id="cancelBtn" class="funcBtn hidden">Cancel</button>
+        <button id="saveBtn" class="funcBtn hidden">Save</button>
+        <button id="updateBtn" class="funcBtn hidden">Update</button>
+      </div>
+    </div>
+
+    <script src="../javascripts/jquery.min.js"></script>
+    <script>
+      var tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("player", {
+          height: "390",
+          width: "640",
+          videoId: "<%= youtubeId %>",
+          playerVars: {
+            playsinline: 1,
+          },
+          events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+
+      let addNoteBtn = document.getElementById("addBtn");
+      let cancelBtn = document.getElementById("cancelBtn");
+      let saveBtn = document.getElementById("saveBtn");
+      let textArea = document.getElementById("note");
+      let updateBtn = document.getElementById("updateBtn");
+
+      function basicState() {
+        addNoteBtn.classList.remove("hidden");
+        textArea.classList.add("hidden");
+        cancelBtn.classList.add("hidden");
+        saveBtn.classList.add("hidden");
+        updateBtn.classList.add("hidden");
+      }
+      function addNoteState() {
+        addNoteBtn.classList.add("hidden");
+        textArea.classList.remove("hidden");
+        cancelBtn.classList.remove("hidden");
+        saveBtn.classList.remove("hidden");
+      }
+      function editNoteState() {
+        addNoteBtn.classList.add("hidden");
+        textArea.classList.remove("hidden");
+        cancelBtn.classList.remove("hidden");
+        updateBtn.classList.remove("hidden");
+      }
+
+      addNoteBtn.addEventListener("click", () => {
+        addNoteState();
+      });
+
+      cancelBtn.addEventListener("click", () => {
+        textArea.value = "";
+        basicState();
+      });
+
+      saveBtn.addEventListener("click", () => {
+        let currtime = player.getCurrentTime();
+        let noteText = textArea.value;
+        textArea.value = "";
+        addNotes(currtime, noteText);
+        basicState();
+      });
+
+      /////////////////////////////////// AJAX WAY /////////////////////////////////////////////////////
+
+      $(document).ready(function () {
+        getNotes();
+      });
+
+      function getNotes() {
+        let URL = "/notes/" + "<%= video_id%>";
+        $.ajax({
+          method: "get",
+          url: URL,
+          data: "",
+          success: printNotes,
+        });
+      }
+
+      function pad(n) {
+        return n < 10 ? "0" + n : n;
+      }
+
+      function timeFormat(sec) {
+        sec = Math.round(sec);
+
+        hours = Math.floor(sec / 3600);
+        minutes = Math.floor((sec - hours * 3600) / 60);
+        seconds = sec - hours * 3600 - minutes * 60;
+
+        return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      }
+
+      function printNotes(data) {
+        $("#notesList").empty();
+
+        data.forEach((d) => {
+          let li = document.createElement("li");
+          let p = document.createElement("p");
+          let b = document.createElement("button");
+          let e = document.createElement("button");
+          let t = document.createElement("p");
+
+          p.innerText = d.note;
+          b.innerText = "delete";
+          b.id = d.note_id;
+          b.setAttribute("data-note_id", d.note_id);
+          b.className = "deleteBtn btn btn-default";
+          e.innerText = "edit";
+          e.className = "editBtn btn btn-default";
+          e.setAttribute("data-note_id", d.note_id);
+          t.innerText = timeFormat(d.time_stamp);
+          t.className = "timeLink";
+          t.addEventListener("click", function () {
+            player.seekTo(d.time_stamp);
+          });
+
+          li.appendChild(t);
+          li.appendChild(p);
+          li.appendChild(e);
+          li.appendChild(b);
+
+          document.getElementsByTagName("ul")[1].appendChild(li);
+        });
+
+        let deleteBtns = document.getElementsByClassName("deleteBtn");
+        for (let d of deleteBtns) {
+          d.addEventListener("click", function () {
+            $.ajax({
+              method: "delete",
+              url: "/notes/delete/" + d.getAttribute("data-note_id"),
+              data: "",
+              success: getNotes,
+            });
+            textArea.value = "";
+            basicState();
+          });
+        }
+
+        let editBtns = document.getElementsByClassName("editBtn");
+        for (let e of editBtns) {
+          e.addEventListener("click", function () {
+            textArea.value = "";
+            editNoteState();
+            saveBtn.classList.add("hidden");
+            textArea.value = e.previousElementSibling.innerText;
+            updateBtn.setAttribute("data-note_id", e.getAttribute("data-note_id"));
+          });
+        }
+
+        updateBtn.addEventListener("click", function () {
+          $.ajax({
+            method: "post",
+            url: "/notes/update",
+            data: "note_id=" + updateBtn.getAttribute("data-note_id") + "&note=" + textArea.value,
+            success: getNotes,
+          });
+          basicState();
+        });
+      }
+
+      function addNotes(timeStamp, noteText) {
+        $.ajax({
+          method: "post",
+          url: "/notes/insert",
+          data: "note=" + noteText + "&time=" + timeStamp + "&video_id=" + "<%=video_id%>" + "&owner=" + "<%=owner%>",
+          success: getNotes,
+        });
+      }
+    </script>
+  </body>
+  <% include frame/script %>
+</html>
