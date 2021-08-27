@@ -17,5 +17,5 @@ https://github.com/conorbailey90/node-js-passport-login-postgresql/blob/master/p
 5. Sign up and continue using the rest of the app
 
 
-![](https://github.com/sarbjot-14/youtube-note-taker/blob/main/younotes.gif)
+![](https://github.com/sarbjot-14/youtube-note-taker/blob/main/younotes.gif width="250" height="250")
 
