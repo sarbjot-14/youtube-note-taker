@@ -16,3 +16,6 @@ https://github.com/conorbailey90/node-js-passport-login-postgresql/blob/master/p
 4. go to localhost:8080/dummy-data
 5. Sign up and continue using the rest of the app
 
+
+![](https://github.com/sarbjot-14/youtube-note-taker/blob/main/younotes.gif)
+
