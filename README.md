@@ -1,5 +1,7 @@
 # YouNotes
 
+<img src="https://github.com/sarbjot-14/youtube-note-taker/blob/main/younotes.gif" width="550" height="400"/>
+
 Final group project for Web Development class. Application enables note taking for any youtube video. 
 * Login and Signup
 * Create playlists
