@@ -20,6 +20,7 @@ Final group project for Web Development class. Application enables note taking f
 * **Docker** and **Docker Compose**  : Create containers for development
 * **Git** and **Github** : Version Control
 * **Postgres** : Database
+* **jQuery** : Interact with html
 
 ## Reflection
 
